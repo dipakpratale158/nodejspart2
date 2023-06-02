@@ -1,0 +1,33 @@
+<%- include('includes/head.ejs') %>
+</head>
+<body>
+  <%- include('includes/navigation.ejs') %>
+  <main>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Order Details</h1>
+
+          <% if (orders.length === 0) { %>
+            <p>No orders found.</p>
+          <% } else { %>
+            <% for (let order of orders) { %>
+              <div>Order Id: <%= order.id %></div>
+              <% if (Array.isArray(order.products) && order.products.length > 0) { %>
+                <ul>
+                  <% for (let product of order.products) { %>
+                    <li><%= product.title %> - <%= product.orderItem.quantity %></li>
+                  <% } %>
+                </ul>
+              <% } else { %>
+                <p>No products found for this order.</p>
+              <% } %>
+            <% } %>
+          <% } %>
+          
+        </div>
+      </div>
+    </div>
+  </main>
+  <%- include('includes/footer.ejs') %>
+</body>

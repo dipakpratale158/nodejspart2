@@ -116,17 +116,46 @@ exports.postCartPage = (req, res) => {
     });
 };
 
+// exports.getCartPage = (req, res) => {
+//   req.user
+//     .getCart()
+//     .then((cart) => {
+//       return cart.getProducts();
+//     })
+//     .then((cartProducts) => {
+//       let totalPrice = 0;
+
+//       for (let product of cartProducts) {
+//         totalPrice += +product.cartItem.quantity * +product.price;
+//       }
+
+//       const viewsData = {
+//         pageTitle: 'Cart Details',
+//         cartProducts,
+//         totalPrice
+//       };
+
+//       res.render('cartDetails', viewsData);
+//     });
+// };
+
+
+
 exports.getCartPage = (req, res) => {
   req.user
     .getCart()
     .then((cart) => {
-      return cart.getProducts();
+      if (cart) {
+        return cart.getProducts();
+      }
+      return null;
     })
     .then((cartProducts) => {
       let totalPrice = 0;
-
-      for (let product of cartProducts) {
-        totalPrice += +product.cartItem.quantity * +product.price;
+      if (cartProducts) {
+        for (let product of cartProducts) {
+          totalPrice += +product.cartItem.quantity * +product.price;
+        }
       }
 
       const viewsData = {
@@ -139,17 +168,39 @@ exports.getCartPage = (req, res) => {
     });
 };
 
+// exports.deleteCartItem = (req, res) => {
+//   const productId = req.body.productId;
+//   let fetchedCart;
+//   req.user
+//     .getCart()
+//     .then((cart) => {
+//       fetchedCart = cart;
+//       return Product.findByPk(productId);
+//     })
+//     .then((product) => {
+//       return fetchedCart.removeProduct(product);
+//     })
+//     .then(() => {
+//       res.redirect('/cart');
+//     })
+//     .catch((error) => {
+//       console.log(error);
+  
+//   });
+// };
+
+//2nd method
 exports.deleteCartItem = (req, res) => {
   const productId = req.body.productId;
-  let fetchedCart;
+  // let fetchedCart;
   req.user
     .getCart()
     .then((cart) => {
-      fetchedCart = cart;
-      return Product.findByPk(productId);
+      // fetchedCart = cart;
+      return cart.getProducts({where:{id:productId}});
     })
-    .then((product) => {
-      return fetchedCart.removeProduct(product);
+    .then((products) => {
+      return products[0].cartItem.destroy()
     })
     .then(() => {
       res.redirect('/cart');

@@ -18,6 +18,7 @@ const router = express.Router();
 const { postCartPage, getCartPage, deleteCartItem } = require('../controllers/CartController');
 
 const { getHomePage, getProductDetailsPage } = require('../controllers/HomeController');
+const { postOrderPage, getOrdersPage } = require('../controllers/OrderController');
 
 router.get('/', getHomePage);
 /////add product detail page id dyanamic id :producvt id
@@ -26,5 +27,6 @@ router.get('/product/details/:productId',getProductDetailsPage)
 router.post('/cart', postCartPage);
 router.get('/cart', getCartPage);
 router.post('/cart/delete-item', deleteCartItem);
-//
+router.post('/order', postOrderPage);
+router.get('/orders', getOrdersPage);
 module.exports = router;

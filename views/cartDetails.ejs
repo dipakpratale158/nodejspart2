@@ -1,3 +1,6 @@
+
+
+
 <%- include('includes/head.ejs') %>
 <link rel="stylesheet" href="/css/cart.css">
   </head>
@@ -10,7 +13,7 @@
                 <div class="col-md-12">
                     <h2>Cart Details</h2>
                     <hr/>
-
+                    <% if (cartProducts) { %>
                     <div class="cart-details">
                         <div class="cart-title d-flex text-end">
                             <div>Product Name</div>
@@ -22,9 +25,9 @@
                         <% for(let product of cartProducts) { %>
                         <div class="cart-product d-flex">
                             <div><%= product.title %></div>
-                            <div><%= product.quantity %></div>
+                            <div><%= product.cartItem.quantity %></div>
                             <div>$<%= product.price %></div>
-                            <div>$<%= product.cartPrice %></div>
+                            <div>$<%= +product.cartItem.quantity * +product.price %></div>
                             <div>
                                 <form action="/cart/delete-item" method="post">
                                     <input type="hidden" name="productId" value="<%= product.id %>">
@@ -37,9 +40,17 @@
                             <h3>TotalPrice: $<%= totalPrice %></h3>
                         </div>
                     </div>
+
+                    <div class="text-center my-3">
+                        <form action="/order" method="post">
+                            <button class="btn btn-primary">Order Now!</button>
+                        </form>
+                    </div>
+                    <% } else { %>
+                        <div>No products in the cart</div>
+                    <% } %>
                 </div>
             </div>
         </div>
     </main>
-    <!--  -->
     <%- include('includes/footer.ejs') %>
