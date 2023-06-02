@@ -196,7 +196,7 @@ exports.getAdminProductsPage = (req, res) => {
 
    
 // };
-
+//
 
 exports.getEditProductPage = (req, res) => {
   const productId = req.params.productId;
