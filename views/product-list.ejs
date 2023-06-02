@@ -18,7 +18,8 @@
                       </div>
                       <h3><%= product.title %></h3>
 <div>Category: <%= product.category ? product.category.title : 'N/A' %></div>
-                      <div>Price: <strong>$<%= product.price %></strong></div>
+              
+<div>Price: <strong>$<%= product.price %></strong></div>
                       <p><%= product.description %></p>
                       <% if (admin) { %>
                         <div class="my-2 text-center d-flex justify-content-center">

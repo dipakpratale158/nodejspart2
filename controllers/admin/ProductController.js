@@ -21,6 +21,7 @@
 const Category = require('../../models/CategoryModel');
 const { saveProduct,fetchAllProducts, getProductById, updateProductById, deleteProductById } = require('../../models/Product');
 const Product = require('../../models/ProductModel');
+const User = require('../../models/UserModel');
 // const Product = require('../../models/ProductModel');
 
 // exports.getAddProductPage = (req, res) => {
@@ -47,75 +48,53 @@ exports.getAddProductPage = (req, res) => {
     });
 };
 
-
-
-
-
-//add data
 exports.postAddProductPage = (req, res) => {
-  // const categoryId=req.body.categoryId
   const product = {
-
-    //add mote input field
-    //no need database id because automaticaly created in database
-    // id:Date.now(),
     title: req.body.title,
     imageUrl: req.body.image,
     price: req.body.price,
     description: req.body.description,
-    //first method second method initialise findbypkmethod
-    categoryId:req.body.categoryId
-
+    categoryId: parseInt(req.body.categoryId, 10)
   };
-// let categoryObj
-//creating product
-//   Category.findByPk(categoryId).then(category=>{
-// categoryObj=category
-// return product.create(product)
 
-//   }).then(productObj=>{
-//     //associate the category
-//    return productObj.setCategory(categoryObj)
-//   }).then(()=>{
-//     //after succesfuly associte the go  to home page
-//     return res.redirect('/')
-//   }).catch(error=>{
-//     console.log(error)
-//   })
-  // saveProduct(product);
-  // res.redirect('/');
-
-// saveProduct(product).then(()=>{
-//       res.redirect('/');
-// }).catch(error=>{
-//   console.log(error)
-// })
-  const productObj = Product.build(product);
-  productObj
-    .save()
+  Product.create(product)
     .then(() => {
       res.redirect('/');
     })
     .catch((error) => {
       console.log(error);
+      // Handle the error appropriately
+      res.redirect('/error'); // Redirect to an error page or take other actions
     });
+};
 
-  }
-  // using sequiilze when i am adding data get data in mysql database
-//   Product.create(product)
+// exports.postAddProductPage = (req, res) => {
+//   const categoryId = req.body.categoryId;
+
+//   const product = {
+//     title: req.body.title,
+//     imageUrl: req.body.image,
+//     price: req.body.price,
+//     description: req.body.description
+//   };
+
+//   let categoryObj;
+
+//   Category.findByPk(categoryId)
+//     .then((category) => {
+//       categoryObj = category;
+//       return Product.create(product);
+//     })
+//     .then((productObj) => {
+//       return productObj.setCategory(categoryObj);
+//     })
 //     .then(() => {
-//       res.redirect('/');
+//       return res.redirect('/');
 //     })
 //     .catch((error) => {
 //       console.log(error);
 //     });
 // };
-
-
-
-
-
-
 
 
 
@@ -148,7 +127,7 @@ exports.postAddProductPage = (req, res) => {
 // };
 
 exports.getAdminProductsPage = (req, res) => {
-  Product.findAll({include:Category})
+  Product.findAll({include:[{model:Category},{model:User}]})
     .then((products) => {
       const viewsData = {
         admin: true,

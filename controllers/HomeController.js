@@ -39,7 +39,8 @@
 //i got error when getting data  product length
 const Category = require('../models/CategoryModel');
 const { fetchAllProducts, getProductById } = require('../models/Product');
-const Product=require('../models/ProductModel')
+const Product=require('../models/ProductModel');
+const User = require('../models/UserModel');
 
 //not take callback take promises beacase of mysql
 // exports.getHomePage = (req, res) => {
@@ -57,7 +58,7 @@ const Product=require('../models/ProductModel')
 
 //
 exports.getHomePage = (req, res) => {
-  Product.findAll({include:Category}).then((products)=>{
+  Product.findAll({include:[{model:Category}, {model:User}]}).then((products)=>{
     console.log(products)
     const viewsData = {
         admin: false,
