@@ -258,26 +258,43 @@ res.render('AddProduct',viewsData)
 //   });
 // };
 
-
-// 2nd way
 exports.postEditProductPage = (req, res) => {
-  // console.log(req.body)
-  const productId=req.body.productId
-  
-  Product.findByPk(productId)
-  .then((product)=>{
-    product.title=req.body.title
-    product.price=req.body.price
-    product.description=req.body.description
-    product.imageUrl=req.body.image
-return product.save()
-  }).then(()=>{
-    res.redirect('/products')
-  }).catch((error)=>{
-    console.log(error)
-  })
- 
+  const productId = req.body.productId;
+  const product = {
+    title: req.body.title,
+    price: req.body.price,
+    description: req.body.description,
+    imageUrl: req.body.image,
+    categoryId: req.body.categoryId
+  };
+  Product.update(product, { where: { id: productId } })
+    .then(() => {
+      res.redirect('/products');
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
+// 2nd way
+// exports.postEditProductPage = (req, res) => {
+//   // console.log(req.body)
+//   const productId=req.body.productId
+  
+//   Product.findByPk(productId)
+//   .then((product)=>{
+//     product.title=req.body.title
+//     product.price=req.body.price
+//     product.description=req.body.description
+//     product.imageUrl=req.body.image
+     
+// return product.save()
+//   }).then(()=>{
+//     res.redirect('/products')
+//   }).catch((error)=>{
+//     console.log(error)
+//   })
+ 
+// };
 
 
 // exports.postDeleteProductPage = (req, res) => {
