@@ -33,7 +33,7 @@ app.use((req, res) => {
   };
   res.status(404).render('404', viewsData);
 });
-
+// 
 
 Category.hasMany(Product);
 Product.belongsTo(Category);

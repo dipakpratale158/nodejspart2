@@ -223,7 +223,7 @@ res.render('AddProduct',viewsData)
    
 };
 
-
+//
 // exports.postEditProductPage = (req, res) => {
 //   // console.log(req.body)
 //   const product = {
